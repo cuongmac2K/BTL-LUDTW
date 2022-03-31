@@ -1,0 +1,237 @@
+﻿@using BTL.Models
+
+@{
+    var listLoaiSanPham = ViewBag.listLoaiSanPham;
+    var taiKhoan = Session["taiKhoan"] as TaiKhoan;
+    var gioHang = Session["GioHang"] as List<GioHang>;
+    var thongTinShop = Session["thongTinShop"] as ThongTinShop;
+    var menu = Session["menu"] as List<LoaiSanPham>;
+
+    int soLuong = 0;
+    var tongTienGioHang = 0;
+    if (gioHang != null)
+    {
+        foreach (var item in gioHang)
+        {
+            soLuong += item.SoLuong;
+            tongTienGioHang += item.SoLuong * item.Gia;
+        }
+    }
+
+
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    @*<meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - My ASP.NET Application</title>
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")*@
+
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop</title>
+    <link rel="stylesheet" href="~/wwwroot/CSS/style.css">
+    <link rel="stylesheet" href="~/wwwroot/CSS/styleDangNhap.css">
+    <link rel="stylesheet" href="~/wwwroot/CSS/style_chiTietSanPham.css">
+    <link rel="stylesheet" href="~/wwwroot/themify-icons/themify-icons.css">
+    <link rel="stylesheet" href="~/wwwroot/fontawesome-free-5.15.4-web/css/all.css">
+</head>
+<body>
+    <div id="main">
+        <div id="header">
+            <div class="logo-left">
+                <a href="@Url.Action("Index", "Home")"><img class="logo-1" src="~/wwwroot/images/261324070_4347523358690584_3346044899357033616_n.png" alt="Logo_ShopDunk"></a>
+            </div>
+            <div class="logo-right">
+                <i class="ti-apple"><a href="#">Authorised</a></i>
+                <i class="ti-mobile"><a href="">@thongTinShop.SoDienThoai</a></i>
+                <i class="ti-location-pin"><a href="">Địa chỉ</a></i>
+                <a class="bag">
+                    <i class="ti-bag js" style="font-size: 24px; margin-left: 12px; cursor: pointer">
+                    </i><span class='badge badge-warning' id='lblCartCount'> @soLuong </span>
+                </a>
+                @if (taiKhoan != null)
+                {
+                    <a href="@Url.Action("DangXuat", "TaiKhoan") " style="font-size: 13px;" title="Đăng xuất">
+                        <i class="fas fa-sign-in-alt" style="font-size: 24px; margin-right: 10px;"></i>
+                    </a>
+                    <a href="@Url.Action("DanhSachHoaDon", "HoaDon", new { taiKhoan.ID}) " style="font-size: 13px;" title="Danh sách hóa đơn">
+                        @taiKhoan.HoTen
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("DangNhap", "TaiKhoan") " style="font-size: 13px;">
+                        <i class="fas fa-sign-in-alt" style="font-size: 24px; margin-right: 10px;"></i>Đăng nhập
+                    </a>
+                }
+
+            </div>
+            <div class="clear"></div>
+            <ul class="nav" id="nav-bar">
+                <li><a href="@Url.Action("Index", "Home")"><img src="~/wwwroot/images/263526478_596871234858714_4622490846793397128_n.png" alt=""></a></li>
+                @foreach (var item in menu)
+                {
+                    <li>
+                        <a href="@Url.Action("TrangTheoTungSanPham", "LoaiSanPham", new { maLoaiSanPham = item.MaLoaiSanPham})">@item.TenLoaiSanPham</a>
+                    </li>
+                }
+                <li>
+                    <a href="#">Dịch vụ</a>
+                    <ul class="nav-iPhone">
+                        <li><a href="">AppleCare- Bảo hành chính hãng</a></li>
+                        <li><a href="">Apple School Manager</a></li>
+                        <li><a href="">Apple Business Manager</a></li>
+                        <li><a href="">Bảo hành kim cương</a></li>
+                        <li><a href="">Microsoft Office bản quyền</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Khuyến mại</a>
+                    <ul class="nav-iPhone">
+                        <li><a href="">Black Friday</a></li>
+                        <li><a href="">Back to School 2021</a></li>
+                        <li><a href="">iMac bản đặc biệt</a></li>
+                        <li><a href="">Ưu đãi VietinBank</a></li>
+                        <li><a href="">Mua hàng từ xa</a></li>
+                        <li><a href="">Dọn hàng xả kho</a></li>
+                        <li><a href="">Bán hàng không lợi nhuận</a></li>
+                    </ul>
+                </li>
+                <li><a href="@Url.Action("TinTuc", "Home")">Tin tức</a></li>
+                <li><form action="/SanPham/TimKiem" method="post"><input type="text" name="text" id="search" placeholder="Bạn muốn mua gì?"><button type="submit" id="search-btn"><i class="fas fa-search"></i></button></form></li>
+            </ul>
+
+        </div>
+        @RenderBody()
+
+        <div id="introduce">
+            <img src="~/wwwroot/images/logo-black-p9zi6fzjztstkzq7o44ox4rx3byzw3ztdhy6dfyb8i.jpeg" alt="logo" class="intro-img">
+            <p class="text-intro">Là chuỗi siêu thị được thành lập từ 2010 tại Hà Nội, sau đó tái cấu trúc vào 2016 và thuộc quyền sở hữu của công ty Hesman, ShopDunk chính thức trở thành đại lý ủy quyền Apple (Apple Authorized Reseller) từ tháng 9/2020. Với kinh nghiệm và đam mê sản phẩm Apple chúng tôi mong muốn đem trải nghiệm tốt nhất về sản phẩm và dịch vụ của Apple tới toàn bộ người dùng tại Việt Nam.</p>
+        </div>
+        <div id="service">
+            <div class="text-service">
+                <p>Thông tin</p>
+                <ul>
+                    <li><a href="">Giới thiệu</a></li>
+                    <li><a href="">Khuyến mại</a></li>
+                    <li><a href="">Tuyển dụng</a></li>
+                    <li><a href="">Hệ thống cửa hàng</a></li>
+                    <li><a href="">Blog ShopDunk</a></li>
+                </ul>
+            </div>
+            <div class="text-service">
+                <p>Chính sách</p>
+                <ul>
+                    <li><a href="">Chính sách đổi trả</a></li>
+                    <li><a href="">Chính sách bảo mật</a></li>
+                    <li><a href="">Chính sách hoạt động chung</a></li>
+                    <li><a href="">Chính sách trả góp</a></li>
+                    <li><a href="">Chính sách bảo hành</a></li>
+                    <li><a href="">Chính sách Ship - COD</a></li>
+                    <li><a href="">Hướng dẫn mua hàng</a></li>
+                    <li><a href="">Hướng dẫn Check IMEI</a></li>
+                </ul>
+            </div>
+            <div class="text-service">
+                <p>Liên hệ</p>
+                <ul>
+                    <li>Gọi tư vấn mua hàng: <a href="" style="font-weight: bold;">@thongTinShop.SoDienThoai</a></li>
+                    <li>Gọi khiếu nại: <a href="" style="font-weight: bold;">@thongTinShop.SoDienThoai</a></li>
+                    <li>Dành cho Doanh nghiệp & Đối tác: <a href="" style="font-weight: bold;">@thongTinShop.SoDienThoai</a></li>
+
+                </ul>
+            </div>
+            <div class="register-service">
+                <a href=""><img src="~/wwwroot/images/bocongthuong@2x-paqabmyksq4df3tgvdpemfeznx0o7oq3w3pneorlci.png" alt="Bo Cong Thuong"></a>
+                <div class="register-icons">
+                    <i class="fab fa-cc-mastercard"></i>
+                    <i class="fab fa-cc-visa"></i>
+                    <i class="fas fa-hand-holding-usd"></i>
+                    <i class="fas fa-money-check-alt"></i>
+                </div>
+                <h2>Đăng ký nhận thông tin từ ShopDunk</h2>
+                <p style="font-size: 12px; margin: 8px 0px;">Nhận thông tin sản phẩm mới và chương trình khuyến mại của ShopDunk</p>
+                <input type="email" name="" id="" class="register-email" placeholder="Nhập email của bạn...">
+                <button type="submit" class="register-btn"><i class="fas fa-paper-plane"></i> Đăng ký</button>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div id="footer">
+            <p>
+                © 2016 Công ty CP HESMAN Việt Nam<br><br>Giấy chứng nhận ĐKDN số 0107465657 do Sở kế hoạch và đầu tư thành phố Hà Nội cấp ngày 08 tháng 06 năm 2016. Địa chỉ: @thongTinShop.DiaChi
+                <br>Điện thoại: @thongTinShop.SoDienThoai. <br>Email: @thongTinShop.Email. <br>Đại diện pháp luật: PHẠM MẠNH HÒA
+            </p>
+        </div>
+    </div>
+
+
+    <div class="modal">
+        <div class="sub-modal">
+            <div class="content-modal">
+                <a href=""><i class="ti-close"></i></a><hr>
+                <div class="listGioHang">
+                    @if (gioHang != null)
+                    {
+                        foreach (var item in gioHang)
+                        {
+                            <div class="product">
+                                <p>@item.TenSanPham-@item.TenMau-@item.KichThuoc<a href="@Url.Action("XoaSanPham", "GioHang", new { item.MaSanPham, item.Id_MauSac, item.Id_DungLuong, @strURL=Request.Url.ToString()})" style="margin-left: 30px;">Xoa</a>  </p>
+                            </div>
+                        }
+                        <br />
+
+                    }
+                </div>
+                <div class="clear"></div>
+                <hr>
+                <br />
+                    <div>Tổng tiền: @String.Format("{0:0,0}", tongTienGioHang) VND</div>
+                <a href="/GioHang/GioHang"><button class="btn_thanhToan">Xem giỏ hàng</button></a>
+                <a href="/GioHang/DatHang"> <button class="btn_thanhToan">Thanh toán</button></a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        window.onscroll = function () { myFunction() };
+        var navH = document.getElementById("nav-bar");
+        var fixed = navH.offsetTop;
+        function myFunction() {
+            if (window.pageYOffset > fixed) {
+                navH.classList.add("fixed");
+            } else {
+                navH.classList.remove("fixed");
+            }
+        }
+    </script>
+    <script>
+        var index = 0;
+        changeImg();
+        function changeImg() {
+            var x = document.getElementsByClassName("slideShow");
+            for (var i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            index++;
+            if (index > x.length) {
+                index = 1
+            } x[index - 1].style.display = "block";
+            setTimeout(changeImg, 1000);
+        }
+    </script>
+    <script src="~/wwwroot/Javascript/showGioHang.js"></script>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

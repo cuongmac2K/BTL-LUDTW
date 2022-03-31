@@ -1,0 +1,75 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutClient.cshtml";
+    ViewBag.Title = "Home Page";
+}
+
+@using BTL.Models
+
+@{
+    var listSlide = ViewBag.listSlide as List<Slide>;
+    var listLoaiSanPham = ViewBag.listLoaiSanPham as List<LoaiSanPham>;
+}
+
+@foreach (var item in listSlide)
+{
+
+    <div class="slideShow" style="padding-top: 40%; background: url(@Url.Content("~/wwwroot/images/slides/" + item.HinhAnh)) top center/cover no-repeat;">
+
+    </div>
+}
+
+<div id="list-sanPham">
+    @foreach (var item in listLoaiSanPham)
+    {
+        <div class="sanPham">
+            <a href="@Url.Action("TrangTheoTungSanPham", "LoaiSanPham", new {maLoaiSanPham = @item.MaLoaiSanPham})"><img src="~/wwwroot/images/loaisanpham/@item.HinhAnh" alt="iPhone" class="sanPham-img sanPham-km-img"></a>
+            <a href="@Url.Action("TrangTheoTungSanPham", "LoaiSanPham", new {maLoaiSanPham = @item.MaLoaiSanPham})" class="text-sanPham">@item.TenLoaiSanPham</a>
+        </div>
+    }
+    <div class="clear"></div>
+</div>
+<div id="slider" style="background: url(@Url.Content("~/wwwroot/images/slider.png")) top center/cover no-repeat;">
+    <div class="text-slider">
+    <h1>Dành cho Doanh nghiệp</h1><br>
+    <h3>Chương trình dành riêng cho:</h3>
+    <ul>
+        <li>Doanh nghiệp</li>
+        <li>Tổ chức</li>
+        <li>Trường học</li>
+        <li>Y Tế</li>
+        <li>Chính phủ</li>
+        <li>Đối tác dự án</li>
+    </ul>
+    <a href="" class="btn-lh">Liên hệ nhận báo giá</a>
+</div>
+    <!-- <div class="clear"></div>           -->
+</div>
+<div id="news">
+    <h1>Yêu Apple, đến ShopDunk</h1>
+    <div class="list-news">
+        <a href=""><img src="~/wwwroot/images/Ảnh-1.jpeg" alt=""></a>
+        <p class="text-news">ShopDunk khai trương 3 cửa hàng Mono Store tháng 12/2021</p>
+    </div>
+    <div class="list-news">
+        <a href=""><img src="~/wwwroot/images/Ảnh-2.jpeg" alt=""></a>
+        <p class="text-news">Trải nghiệm cửa hàng Apple thổ cẩm cùng Vinh Vật Vờ </p>
+    </div>
+</div>
+<div id="feature">
+    <div class="feature-n">
+        <a href=""><i class="fas fa-exchange-alt"></i></a>
+        <a href="#" class="text-feature">Thu cũ đổi mới</a>
+        <p class="sub-feature">Lên đời sản phẩm Apple với chi phí thấp </p>
+    </div>
+    <div class="feature-n">
+        <a href=""><i class="far fa-gem"></i></a>
+        <a href="#" class="text-feature">Bảo hành kim cương</a>
+        <p class="sub-feature">Chính sách bảo hành chỉ có tại ShopDunk</p>
+    </div>
+    <div class="feature-n">
+        <a href="./traGop.html"><i class="far fa-comments"></i></a>
+        <a href="./traGop.html" class="text-feature">Thủ tục trả góp</a>
+        <p class="sub-feature">Mọi sản phẩm đều có thể áp dụng chương trình trả góp </p>
+    </div>
+    <div class="clear"></div>
+</div>

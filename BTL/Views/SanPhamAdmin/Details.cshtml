@@ -1,0 +1,133 @@
+﻿@model BTL.Models.SanPham
+@using BTL.Models
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var ImagePath = "~/wwwroot/images/sanpham/" + Model.HinhAnh;
+}
+
+@{ 
+    var listSMD = ViewBag.DanhSachDungLuongMauSac as List<SanPhamKichThuocMauSacDTO>;
+}
+
+
+
+<div>
+    <h4>Chi tiết sản phẩm</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Tên loại sản phẩm
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LoaiSanPham.TenLoaiSanPham)
+        </dd>
+
+        <dt>
+            Tên sản phẩm
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TenSanPham)
+        </dd>
+
+        <dt>
+            Hình ảnh
+        </dt>
+
+        <dd>
+            <img id="output" class="img-rounded" alt="Ảnh" width="180" height="200" src="@Url.Content(ImagePath)" /><br />
+            @Html.DisplayFor(model => model.HinhAnh)
+        </dd>
+
+        <dt>
+            Mô tả
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MoTa)
+        </dd>
+
+        <dt>
+            Ngày tạo
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NgayTao)
+        </dd>
+
+        <dt>
+            Ngày cập nhập
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NgayCapNhat)
+        </dd>
+
+        <dt>
+            Sản phẩm mới
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SanPhamMoi)
+        </dd>
+
+        <dt>
+            Sản phẩm nổi bật
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoiBat)
+        </dd>
+
+        <dt>
+            Danh sách dung lượng - màu sắc
+        </dt>
+
+        <dd>
+
+            <table class="table">
+                <tr style="border:1px">
+                    <th>
+                        Kích thước
+                    </th>
+                    <th>
+                        Tên màu
+                    </th>
+                    <th>
+                        Giá
+                    </th>
+                    <th>
+                        Số lượng còn
+                    </th>
+                </tr>
+
+                @foreach (var item in listSMD)
+                {
+                    <tr style="border:1px">
+                        <td>
+                            @item.KichThuoc
+                        </td>
+                        <td>
+                            @item.TenMau
+                        </td>
+                        <td>
+                            @item.Gia.ToString("0,0") VND
+                        </td>
+                        <td>
+                            @item.SoLuongCon
+                        </td>
+                       
+                    </tr>
+                }
+            </table>      
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Sửa", "Edit", new { id = Model.MaSanPham }, htmlAttributes: new { @class = "btn btn-info btn-sm" })
+    @Html.ActionLink("Quay lại", "Index", null, htmlAttributes: new { @class = "btn btn-info btn-sm" })
+</p>
